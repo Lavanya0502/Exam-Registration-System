@@ -28,8 +28,6 @@ import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 dayjs.extend(customParseFormat);
 
-
-
 const CreateExam = ({ open, onClose = () => {}, exam = null }) => {
   const isEditMode = Boolean(exam);
 
@@ -47,20 +45,19 @@ const CreateExam = ({ open, onClose = () => {}, exam = null }) => {
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
 
-useEffect(() => {
-  if (isEditMode && exam) {
-    const [start, end] = exam.slot?.split(' - ') || [null, null];
-    setForm({
-      ...exam,
-      date: exam.date ? dayjs(exam.date) : null,
-      startTime: start ? dayjs(start, 'hh:mm A') : null,
-      endTime: end ? dayjs(end, 'hh:mm A') : null,
-      sheetFile: null,
-      sheetFileBase64: exam.sheetFileBase64 || ''
-    });
-  }
-}, [exam]);
-
+  useEffect(() => {
+    if (isEditMode && exam) {
+      const [start, end] = exam.slot?.split(' - ') || [null, null];
+      setForm({
+        ...exam,
+        date: exam.date ? dayjs(exam.date) : null,
+        startTime: start ? dayjs(start, 'hh:mm A') : null,
+        endTime: end ? dayjs(end, 'hh:mm A') : null,
+        sheetFile: null,
+        sheetFileBase64: exam.sheetFileBase64 || ''
+      });
+    }
+  }, [exam]);
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -77,7 +74,7 @@ useEffect(() => {
     if (!form.startTime) newErrors.startTime = 'Start time is required';
     if (!form.endTime) newErrors.endTime = 'End time is required';
     if (!form.createdBy.trim()) newErrors.createdBy = 'Creator name is required';
-    if (!form.sheetFile && !form.sheetFileBase64) {
+    if (!form.sheetFile && !form.sheetFileBase64 && !isEditMode) {
       newErrors.sheetFile = 'Excel file is required';
     }
 
@@ -92,13 +89,12 @@ useEffect(() => {
       return;
     }
 
-
     const slot = `${format(form.startTime, 'hh:mm a')} - ${format(form.endTime, 'hh:mm a')}`;
     const newExam = {
       ...form,
       slot,
       date: format(form.date, 'yyyy-MM-dd'),
-      sheetFileName: form.sheetFile.name,
+      ssheetFileName: form.sheetFile?.name || '',
       sheetFileBase64: form.sheetFileBase64
     };
 
@@ -173,7 +169,6 @@ useEffect(() => {
         )}
 
         <Grid container spacing={2}>
-   
           <Grid item xs={12} sm={6}>
             <FormControl fullWidth error={!!errors.id}>
               <InputLabel shrink>Exam ID</InputLabel>
@@ -189,22 +184,13 @@ useEffect(() => {
             </FormControl>
           </Grid>
 
-
           <Grid item xs={12} sm={6}>
             <FormControl fullWidth error={!!errors.name}>
               <InputLabel shrink>Exam Name</InputLabel>
-              <TextField
-                name='name'
-                value={form.name}
-                onChange={handleChange}
-                fullWidth
-                size='xlarge'
-                
-              />
+              <TextField name='name' value={form.name} onChange={handleChange} fullWidth size='xlarge' />
               {errors.name && <FormHelperText>{errors.name}</FormHelperText>}
             </FormControl>
           </Grid>
-
 
           <Grid item xs={12} sm={6}>
             <FormControl fullWidth error={!!errors.status}>
@@ -227,6 +213,7 @@ useEffect(() => {
                   setForm(prev => ({ ...prev, date }));
                   setErrors(prev => ({ ...prev, date: '' }));
                 }}
+                minDate={dayjs().startOf('day')}
                 slotProps={{
                   textField: {
                     fullWidth: true,
@@ -241,7 +228,6 @@ useEffect(() => {
             </FormControl>
           </Grid>
 
- 
           <Grid item xs={12} sm={6}>
             <FormControl fullWidth error={!!errors.startTime}>
               <InputLabel shrink>Start Time</InputLabel>
@@ -251,6 +237,7 @@ useEffect(() => {
                   setForm(prev => ({ ...prev, startTime: time }));
                   setErrors(prev => ({ ...prev, startTime: '' }));
                 }}
+                minTime={form.date?.isSame(dayjs(), 'day') ? dayjs() : undefined}
                 slotProps={{
                   textField: {
                     fullWidth: true,
@@ -274,6 +261,7 @@ useEffect(() => {
                   setForm(prev => ({ ...prev, endTime: time }));
                   setErrors(prev => ({ ...prev, endTime: '' }));
                 }}
+                minTime={form.date?.isSame(dayjs(), 'day') ? dayjs() : undefined}
                 slotProps={{
                   textField: {
                     fullWidth: true,
@@ -288,17 +276,10 @@ useEffect(() => {
             </FormControl>
           </Grid>
 
-
           <Grid item xs={12} sm={6}>
             <FormControl fullWidth error={!!errors.createdBy}>
               <InputLabel shrink>Created By</InputLabel>
-              <TextField
-                name='createdBy'
-                value={form.createdBy}
-                onChange={handleChange}
-                fullWidth
-                size='xlarge'
-              />
+              <TextField name='createdBy' value={form.createdBy} onChange={handleChange} fullWidth size='xlarge' />
               {errors.createdBy && <FormHelperText>{errors.createdBy}</FormHelperText>}
             </FormControl>
           </Grid>
@@ -308,6 +289,7 @@ useEffect(() => {
               <InputLabel shrink>Upload Excel</InputLabel>
               <Box
                 onDrop={e => {
+                  if (isEditMode) return; // 🔒 disable in edit mode
                   e.preventDefault();
                   const file = e.dataTransfer.files[0];
                   if (file) {
@@ -315,8 +297,10 @@ useEffect(() => {
                     handleFileUpload(file);
                   }
                 }}
-                onDragOver={e => e.preventDefault()}
-                onClick={() => document.getElementById('excel-file-input')?.click()}
+                onDragOver={e => !isEditMode && e.preventDefault()}
+                onClick={() => {
+                  if (!isEditMode) document.getElementById('excel-file-input')?.click();
+                }}
                 sx={{
                   height: '40px',
                   display: 'flex',
@@ -324,17 +308,19 @@ useEffect(() => {
                   justifyContent: 'center',
                   border: '2px dashed var(--divider)',
                   borderRadius: '8px',
-                  backgroundColor: 'var(--background-disabled)',
-                  cursor: 'pointer',
-                  '&:hover': {
-                    borderColor: 'var(--primary-main)',
-                    backgroundColor: 'var(--background-read-only)'
-                  },
+                  backgroundColor: isEditMode ? 'var(--background-read-only)' : 'var(--background-disabled)',
+                  cursor: isEditMode ? 'not-allowed' : 'pointer',
+                  opacity: isEditMode ? 0.5 : 1,
                   px: 2
                 }}>
                 <Typography variant='body2' color='text.secondary' noWrap>
-                  {form.sheetFile ? `Uploaded: ${form.sheetFile.name}` : 'Upload Excel/CSV file here'}
+                  {form.sheetFile
+                    ? `Uploaded: ${form.sheetFile.name}`
+                    : form.sheetFileBase64 && isEditMode
+                      ? 'Excel already uploaded'
+                      : 'Upload Excel/CSV file here'}
                 </Typography>
+
                 <input
                   type='file'
                   accept='.xlsx,.xls'
@@ -346,6 +332,7 @@ useEffect(() => {
                   }}
                 />
               </Box>
+
               {errors.sheetFile && (
                 <Typography variant='body2' fontWeight='bold' color='var(--error-dark)' sx={{ mt: 0.5 }}>
                   {errors.sheetFile}
@@ -375,13 +362,13 @@ useEffect(() => {
             backgroundColor: 'var(--error-light)',
             color: 'var(--error-main)',
             textTransform: 'none',
-            fontWeight: 600,
+            fontWeight: 500,
             fontSize: { xs: '16px', sm: '18px' },
             px: { xs: 3, sm: 4 },
             py: 1.8,
-            minWidth: '120px',
+            minWidth: '80px',
             margin: '8px',
-            minHeight: { xs: '48px', sm: '56px' },
+            minHeight: { xs: '38px', sm: '46px' },
             '&:hover': {
               backgroundColor: 'var(--error-light)'
             }
@@ -390,24 +377,23 @@ useEffect(() => {
         </Button>
 
         <Button
-          variant='secondary1'
+          variant='outlined'
           onClick={handleSubmit}
           sx={{
             backgroundColor: 'var(--primary-light)',
-            color: 'var(--primary-main)',
+            color: 'var(--primary   -main)',
             textTransform: 'none',
-            fontWeight: 600,
+            fontWeight: 500,
             fontSize: { xs: '16px', sm: '18px' },
             px: { xs: 3, sm: 4 },
             py: 1.8,
-            minWidth: '120px',
+            minWidth: '80px',
             margin: '8px',
-            minHeight: { xs: '48px', sm: '56px' },
+            minHeight: { xs: '38px', sm: '46px' },
             '&:hover': {
               backgroundColor: 'var(--primary-light)'
             }
           }}>
-            
           {isEditMode ? 'Save Changes' : 'Create Exam'}
         </Button>
       </DialogActions>

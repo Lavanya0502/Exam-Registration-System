@@ -39,6 +39,7 @@ import useIsMobile from '../hooks/MobileHook';
 import CreateExam from './CreateExam';
 import ExamUserSheet from './ExamUserSheet';
 import ExamStatistics from './ExamStatistics';
+import { useNavigate } from 'react-router-dom';
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) return -1;
@@ -71,6 +72,7 @@ const ExamDashboard = () => {
   const [showStats, setShowStats] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
+  const navigate = useNavigate();
 
   const BASE_URL = 'https://student-view-app.cfapps.us10-001.hana.ondemand.com/register?id=';
 
@@ -86,7 +88,7 @@ const ExamDashboard = () => {
   const handleClose = () => {
     setIsDialogOpen(false);
     setSelectedExam(null);
-    fetchExams(); 
+    fetchExams();
   };
 
   const drawer = (
@@ -380,7 +382,7 @@ const ExamDashboard = () => {
                 <Button
                   variant='outlined'
                   onClick={() => {
-                    setSelectedExam(null); 
+                    setSelectedExam(null);
                     setIsDialogOpen(true);
                   }}
                   endIcon={<Typography sx={{ fontWeight: 'bold', fontSize: '18px', lineHeight: 1 }}>+</Typography>}
@@ -508,9 +510,9 @@ const ExamDashboard = () => {
           onClose={handleMenuClose}
           PaperProps={{
             sx: {
-              backgroundColor: 'white', 
+              backgroundColor: 'white',
               color: 'var(--text-primary)',
-              boxShadow: 4, 
+              boxShadow: 4,
               borderRadius: 2,
               minWidth: 160,
               '& .MuiMenuItem-root': {
@@ -547,6 +549,7 @@ const ExamDashboard = () => {
 
           <MenuItem
             onClick={() => {
+              handleMenuClose();
               setQrOptionsOpen(false);
               setTimeout(() => {
                 setQrDialogOpen(true);
@@ -557,7 +560,7 @@ const ExamDashboard = () => {
 
           <MenuItem
             onClick={() => {
-              setView('heatmap');
+              navigate('/error'); 
               handleMenuClose();
             }}>
             Heatmap
@@ -565,8 +568,8 @@ const ExamDashboard = () => {
 
           <MenuItem
             onClick={() => {
-              setSelectedExam(selectedExam); 
-              setIsDialogOpen(true); 
+              setSelectedExam(selectedExam);
+              setIsDialogOpen(true);
               handleMenuClose();
             }}>
             Edit
@@ -575,7 +578,7 @@ const ExamDashboard = () => {
           <MenuItem
             onClick={() => {
               handleMenuClose();
-              setConfirmDeleteOpen(true); 
+              setConfirmDeleteOpen(true);
             }}>
             Delete
           </MenuItem>
@@ -593,13 +596,12 @@ const ExamDashboard = () => {
               <Button
                 onClick={() => {
                   setQrOptionsOpen(false);
-                  setQrDialogOpen(true); 
+                  setQrDialogOpen(true);
                 }}>
                 View QR
               </Button>
               <Button
                 onClick={() => {
-                  
                   const qrValue = `${BASE_URL}${selectedExam.id}`;
                   const tempDiv = document.createElement('div');
                   document.body.appendChild(tempDiv);
@@ -617,7 +619,7 @@ const ExamDashboard = () => {
                         link.click();
                         document.body.removeChild(tempDiv);
                       });
-                    }, 100); 
+                    }, 100);
                   });
                 }}>
                 Download QR
@@ -646,7 +648,7 @@ const ExamDashboard = () => {
           onClose={() => setConfirmDeleteOpen(false)}
           PaperProps={{
             sx: {
-              minWidth: 400, 
+              minWidth: 400,
               height: '150px',
               overflow: 'hidden',
               backgroundColor: 'var(--background-paper)'
@@ -658,7 +660,7 @@ const ExamDashboard = () => {
               Are you sure you want to delete <strong>{selectedExam?.name}</strong>?
             </Typography>
           </DialogContent>
-          <DialogActions sx={{margin:'10px'}} >
+          <DialogActions sx={{ margin: '10px' }}>
             <Button
               onClick={() => setConfirmDeleteOpen(false)}
               variant='outlined'

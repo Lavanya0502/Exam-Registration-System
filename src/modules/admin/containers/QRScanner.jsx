@@ -72,7 +72,7 @@ const QRScanner = ({ open, onClose, exam }) => {
           sx={{
             bgcolor: '#fff',
             p: 2,
-            borderRadius: 2,
+            borderRadius: 4,
             boxShadow: 1
           }}>
           <QRCode value={qrValue} size={isMobile ? 180 : 220} />
@@ -96,18 +96,16 @@ const QRScanner = ({ open, onClose, exam }) => {
           variant='contained'
           sx={{
             backgroundColor: 'var(--primary-light)',
-            color: 'var(--primary-main)',
+            color: 'var(--primary   -main)',
             textTransform: 'none',
             fontWeight: 500,
-            fontSize: '14px',
-            px: 3,
-            py: 1.5,
-            minHeight: 48,
-            minWidth: 120,
-            boxShadow: 'none',
+            fontSize: { xs: '16px', sm: '18px' },
+            px: { xs: 3, sm: 4 },
+            py: 1.8,
+            minWidth: '80px',
+            minHeight: { xs: '38px', sm: '46px' },
             '&:hover': {
-              backgroundColor: 'var(--primary-light)',
-              boxShadow: 'none'
+              backgroundColor: 'var(--primary-light)'
             }
           }}>
           Download
@@ -120,19 +118,17 @@ const QRScanner = ({ open, onClose, exam }) => {
             variant='contained'
             sx={{
               backgroundColor: 'var(--primary-light)',
-              color: 'var(--primary-main)',
-              textTransform: 'none',
-              fontWeight: 500,
-              fontSize: '14px',
-              px: 3,
-              py: 1.5,
-              minHeight: 48,
-              minWidth: 120,
-              boxShadow: 'none',
-              '&:hover': {
-                backgroundColor: 'var(--primary-light)',
-                boxShadow: 'none'
-              }
+            color: 'var(--primary   -main)',
+            textTransform: 'none',
+            fontWeight: 500,
+            fontSize: { xs: '16px', sm: '18px' },
+            px: { xs: 3, sm: 4 },
+            py: 1.8,
+            minWidth: '80px',
+            minHeight: { xs: '38px', sm: '46px' },
+            '&:hover': {
+              backgroundColor: 'var(--primary-light)'
+            }
             }}>
             Print
           </Button>
@@ -146,16 +142,13 @@ const QRScanner = ({ open, onClose, exam }) => {
             color: 'var(--error-main)',
             textTransform: 'none',
             fontWeight: 500,
-            fontSize: '14px',
-            px: 3,
-            py: 1.5,
-            minHeight: 48,
-            minWidth: 120,
-            boxShadow: 'none',
-            border: 'none',
+            fontSize: { xs: '16px', sm: '18px' },
+            px: { xs: 3, sm: 4 },
+            py: 1.8,
+            minWidth: '80px',
+            minHeight: { xs: '38px', sm: '46px' },
             '&:hover': {
-              backgroundColor: 'var(--error-light)',
-              boxShadow: 'none'
+              backgroundColor: 'var(--error-light)'
             }
           }}>
           Close

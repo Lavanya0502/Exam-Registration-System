@@ -58,15 +58,22 @@ const ExamStatistics = ({ examId, onClose, goToSheet }) => {
   return (
     <Box
       sx={{
-        px: { xs: 2 },
-        py: { xs: 3 },
-        maxWidth: 1200,
-        padding:'5px'
+        maxWidth: '1700px',
+        mx: 'auto',
+        px: { xs: 2, sm: 4, md: 6 },
+        py: { xs: 3, sm: 4 }
       }}>
       <Box display='flex' justifyContent='space-between' alignItems='center' flexWrap='wrap' gap={2} mb={4}>
-        <Typography variant='h3' fontWeight='bold' color='var(--text-primary)'>
+        <Typography
+          variant='h3'
+          fontWeight='bold'
+          color='var(--text-primary)'
+          sx={{
+            fontSize: { xs: '1.8rem', sm: '2.2rem', md: '2.6rem' }
+          }}>
           Exam Statistics
         </Typography>
+
         <Button
           variant='outlined'
           color='error'
@@ -76,16 +83,16 @@ const ExamStatistics = ({ examId, onClose, goToSheet }) => {
             color: 'var(--error-main)',
             textTransform: 'none',
             fontWeight: 500,
-            fontSize: '14px',
-            px: 2,
-            py: 1,
-            boxShadow: 'none',
+            fontSize: { xs: '13px', sm: '14px' },
+            px: { xs: 2, sm: 3 },
+            py: { xs: 1, sm: 1.2 },
             border: 'none',
             '&:hover': {
               backgroundColor: 'var(--error-light)',
               boxShadow: 'none'
             }
-          }}> Close
+          }}>
+          Close
         </Button>
       </Box>
 
