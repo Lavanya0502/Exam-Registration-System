@@ -560,7 +560,7 @@ const ExamDashboard = () => {
 
           <MenuItem
             onClick={() => {
-              navigate('/error'); 
+              navigate('/error');
               handleMenuClose();
             }}>
             Heatmap
@@ -666,19 +666,16 @@ const ExamDashboard = () => {
               variant='outlined'
               sx={{
                 backgroundColor: 'var(--primary-light)',
-                color: 'var(--primary-main)',
+                color: 'var(--primary   -main)',
                 textTransform: 'none',
                 fontWeight: 500,
-                fontSize: '14px',
-                px: 2,
-                py: 1,
-                minHeight: 48,
-                minWidth: 120,
-                boxShadow: 'none',
-                border: 'none',
+                fontSize: { xs: '16px', sm: '18px' },
+                px: { xs: 3, sm: 4 },
+                py: 1.8,
+                minWidth: '80px',
+                minHeight: { xs: '38px', sm: '46px' },
                 '&:hover': {
-                  backgroundColor: 'var(--primary-light)',
-                  boxShadow: 'none'
+                  backgroundColor: 'var(--primary-light)'
                 }
               }}>
               Cancel
@@ -698,16 +695,13 @@ const ExamDashboard = () => {
                 color: 'var(--error-main)',
                 textTransform: 'none',
                 fontWeight: 500,
-                fontSize: '14px',
-                px: 2,
-                py: 1,
-                minHeight: 48,
-                minWidth: 120,
-                boxShadow: 'none',
-                border: 'none',
+                fontSize: { xs: '16px', sm: '18px' },
+                px: { xs: 3, sm: 4 },
+                py: 1.8,
+                minWidth: '80px',
+                minHeight: { xs: '38px', sm: '46px' },
                 '&:hover': {
-                  backgroundColor: 'var(--error-light)',
-                  boxShadow: 'none'
+                  backgroundColor: 'var(--error-light)'
                 }
               }}>
               Delete
