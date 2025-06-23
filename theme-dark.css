@@ -1,0 +1,74 @@
+:root[data-theme='dark'] {
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.6);
+  --text-tertiary: rgba(255, 255, 255, 0.3);
+  --text-disabled: rgba(255, 255, 255, 0.2);
+
+  --background-default: #141414;
+  --background-paper: #1f1f1f;
+  --background-disabled: rgba(255, 255, 255, 0.12);
+  --background-read-only: rgba(255, 255, 255, 0.12);
+
+  --divider-primary: rgba(255, 255, 255, 0.3);
+  --divider-secondary: rgba(67, 76, 87, 0.3);
+
+  --primary-main: #ae9ee2;
+  --primary-light: #ece7f8;
+  --primary-dark: #8d76d8;
+  --primary-dark-plus: #0019ae;
+
+  --error-main: #e1404e;
+  --error-light: #fce9ed;
+  --error-dark: #a9001a;
+
+  --success-main: #4a8f3e;
+  --success-light: #eaf5e9;
+  --success-dark: #2d5f24;
+
+  --info-main: #57a2dd;
+  --info-light: #e4f1fa;
+  --info-dark: #1f4787;
+
+  --warning-dark: #653210;
+  --warning-light: #fcf3ed;
+  --warning-main: #dd742d;
+
+  --contrast-text: #1d1d11;
+  --kpi-card-text: #1d1d11;
+
+  --button-disabled: rgba(255, 255, 255, 0.12);
+
+  /* graph colors */
+  --blue-200: #a3a8d9;
+  --blue-50: #c7cae8;
+  --pink-200: #fb9ecb;
+  --pink-50: #fac4e0;
+  --peach-200: #f5bf8a;
+  --peach-50: #f8d7ba;
+  --purple-200: #daa0e0;
+  --purple-50: #e7c7ea;
+  --beige-200: #dfc6bb;
+  --beige-50: #efdcd4;
+  --voilet-200: #b19ee0;
+  --voilet-50: #d0c5ed;
+  --coral-200: #ffa697;
+  --coral-50: #ffc9bf;
+  --bluee-200: #8fc6f2;
+  --bluee-50: #bbdcf6;
+  --yellow-200: #f2c762;
+  --yellow-50: #fadd9c;
+  --green-200: #acd7a6;
+  --green-50: #cce6c9;
+
+  /* shadow */
+  --shadow-0: 0px 1px 2px 0px rgba(156, 163, 175, 0.16), 0px 1px 3px 1px rgba(156, 163, 175, 0.12);
+  --shadow-1: 0px 0px 2px 0px rgba(29, 29, 17, 0.08), 0px 4px 3px 0px rgba(156, 163, 175, 0.12),
+    0px 2px 1px 0px rgba(156, 163, 175, 0.08), 0px 1px 1px 0px rgba(156, 163, 175, 0.09);
+  --shadow-2: 0px 0px 16px 0px rgba(156, 163, 175, 0.07), 0px 0px 8px 0px rgba(156, 163, 175, 0.1),
+    0px 0px 4px 0px rgba(156, 163, 175, 0.12), 0px 0px 6px 0px rgba(156, 163, 175, 0.2);
+  --shadow-3: 0px 0px 5px 0px rgba(156, 163, 175, 0), 0px 20px 18px 0px rgba(156, 163, 175, 0.05),
+    0px 12px 13px 0px rgba(156, 163, 175, 0.12), 0px 1px 2px 0px rgba(156, 163, 175, 0.2);
+  --shadow-4: 0px 1px 24px 0px rgba(156, 163, 175, 0.25);
+  --shadow-5: 0px 27px 80px 0px rgba(29, 29, 17, 0.23), 0px 0px 20px 0px rgba(29, 29, 17, 0.05),
+    0px 17px 30px 0px rgba(29, 29, 17, 0.1);
+}

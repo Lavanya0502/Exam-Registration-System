@@ -1,0 +1,7 @@
+---
+applications:
+  - name: exam-registration-app
+    path: dist
+    memory: 128M
+    buildpacks:
+      - staticfile_buildpack
