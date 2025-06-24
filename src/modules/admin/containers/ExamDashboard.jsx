@@ -150,6 +150,14 @@ const ExamDashboard = () => {
         onClick={() => {
           setSelectedNav('exams');
           setView(null);
+          setShowSheet(false);
+          setShowStats(false);
+          setQrDialogOpen(false);
+          setQrOptionsOpen(false);
+          setIsDialogOpen(false);
+          setConfirmDeleteOpen(false);
+          setSelectedExam(null);
+          setView(null);
         }}
         sx={{
           backgroundColor: selectedNav === 'exams' ? 'white' : 'transparent',
